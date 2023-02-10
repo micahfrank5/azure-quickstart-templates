@@ -13,7 +13,21 @@ steps:
 -
 - task: AzureKeyVault@2
   inputs:
-    azureSubscription: 'Iac-Test'
+    azureSubscription: 'Visual Studio Enterprise – MPN (3acc66dc-6a5e-44eb-92ea-848b6cf2a3da)'
     KeyVaultName: 'IacKey'
     SecretsFilter: '*'
     RunAsPreJob: false
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Visual Studio Enterprise – MPN (3acc66dc-6a5e-44eb-92ea-848b6cf2a3da)'
+    subscriptionId: '3acc66dc-6a5e-44eb-92ea-848b6cf2a3da'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Test_group'
+    location: 'South Africa North'
+    templateLocation: 'Linked artifact'
+    csmFile: 'azuredeploy.json'
+    csmParametersFile: 'azuredeploy.parameters.json'
+    overrideParameters: '-adminPassword $(LocalAdmin)'
+    deploymentMode: 'Incremental'
+    deploymentName: 'TemplateDeploy'
